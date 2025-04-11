@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_app/Controller/GeminiService.dart';
-import 'package:student_app/Controller/GeneratingImage.dart';
 import 'package:student_app/Controller/SpeakToText.dart';
 import 'package:stability_image_generation/stability_image_generation.dart';
 import 'package:student_app/View/ImageScreen/Land1Screen.dart';
