@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_app/Controller/GeminiService.dart';
 import 'package:student_app/Controller/GeneratingImage.dart';
-import 'package:student_app/Controller/OpenAIController.dart';
 import 'package:student_app/Controller/SpeakToText.dart';
 import 'package:stability_image_generation/stability_image_generation.dart';
 import 'package:student_app/View/ImageScreen/Land1Screen.dart';
@@ -24,8 +23,6 @@ class _Imagescreen1State extends State<Imagescreen1> {
   late ImageAIStyle imageAIStyle;
   String style = '';
   String _spokenText = '';
-
-  TextEditingController _queryController = TextEditingController();
 
   @override
   void initState() {
@@ -156,7 +153,6 @@ class _Imagescreen1State extends State<Imagescreen1> {
                                             .startListening((text) {
                                           setState(() {
                                             _spokenText = text;
-                                            _queryController.text = text;
                                           });
                                         });
                                       } else {
@@ -202,8 +198,6 @@ class _Imagescreen1State extends State<Imagescreen1> {
                             style = '';
                             _spokenText = '';
 
-                            TextEditingController _queryController =
-                                TextEditingController();
                             setState(() {});
                           },
                           child: Image.asset(
@@ -624,29 +618,16 @@ class _Imagescreen1State extends State<Imagescreen1> {
                         ),
                         InkWell(
                           onTap: () async {
-                            final imageService = ImageGenerationService(
-                              apiKey:
-                                  'sk-fzuK30CcYxm7LN7ZdZjHtZGbt7c9czTietIicFUC1QYJ3vMt',
-                              imageAIStyle:
-                                  ImageAIStyle.studioPhoto, // optional style
-                            );
                             final SharedPreferences prefs =
                                 await SharedPreferences.getInstance();
                             String? age = await prefs.getString('age');
                             String? boy = await prefs.getString('Isboy');
-                            String prompit = 'أنا ' +
-                                boy! +
-                                '، عمري ' +
-                                age! +
-                                ' سنوات،' +
-                                ' اريدك ان ترسم لي صورة، ملونة، وجميلة، ومعبرة جدا ' +
-                                'راعي ان تكون الصورة عن ' +
-                                _spokenText +
-                                style;
+                            String prompit =
+                                'أنا ${boy!}، عمري ${age!} سنوات، اريدك ان ترسم لي صورة، ملونة، وجميلة، ومعبرة جدا راعي ان تكون الصورة عن $_spokenText$style';
                             GeminiTextService _gemin = new GeminiTextService();
 
-                            String? gentext = await _gemin.generateText(prompit +
-                                ' translate this to english without saying anything before or after only say the translation');
+                            String? gentext = await _gemin.generateText(
+                                '$prompit translate this to english without saying anything before or after only say the translation');
 
                             print(prompit);
                             print(gentext);
