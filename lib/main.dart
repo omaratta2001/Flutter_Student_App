@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:student_app/Controller/Providers/HomeScreen_provider.dart';
+import 'package:student_app/Controller/Providers/SelectCategories_provider.dart';
 import 'package:student_app/View/HomeScreen/HomeScreen.dart';
 
 void main() {
@@ -18,6 +19,7 @@ void main() {
       MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (_) => HomescreenProvider()),
+          ChangeNotifierProvider(create: (_) => SpeechProvider()..initSpeech()),
         ],
         child: const MyApp(),
       ),

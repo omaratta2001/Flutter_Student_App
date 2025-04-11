@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:student_app/Controller/Providers/SelectCategories_provider.dart';
 import 'package:student_app/Controller/SpeakToText.dart';
 import 'package:student_app/View/ActivityScreen/ActivityScreen.dart';
 import 'package:student_app/View/AdvantureScreen/AdvantureScreen.dart';
@@ -15,15 +17,15 @@ class SelectionCategory extends StatefulWidget {
 }
 
 class _SelectionCategoryState extends State<SelectionCategory> {
-  final SpeechService _speechService = SpeechService();
-  bool _isListening = false;
-  String _spokenText = '';
+  // final SpeechService _speechService = SpeechService();
+  // bool _isListening = false;
+  // String _spokenText = '';
 
-  @override
-  void initState() {
-    super.initState();
-    _speechService.initSpeech();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _speechService.initSpeech();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -83,9 +85,14 @@ class _SelectionCategoryState extends State<SelectionCategory> {
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(15)),
                           child: SingleChildScrollView(
-                            child: Text(
-                              _spokenText,
-                              style: TextStyle(fontSize: 25),
+                            child: Consumer<SpeechProvider>(
+                              builder: (BuildContext context, speechprovider,
+                                  Widget? child) {
+                                return Text(
+                                  speechprovider.spokenText,
+                                  style: TextStyle(fontSize: 25),
+                                );
+                              },
                             ),
                           ),
                         ),
@@ -103,28 +110,21 @@ class _SelectionCategoryState extends State<SelectionCategory> {
                 ),
                 Transform.translate(
                   offset: Offset(-MediaQuery.of(context).size.width / 20, 0),
-                  child: InkWell(
-                    onTap: () async {
-                      if (!_isListening) {
-                        setState(() => _isListening = true);
-                        await _speechService.startListening((text) {
-                          setState(() {
-                            _spokenText = text;
-                          });
-                        });
-                      } else {
-                        _speechService.stopListening();
-                        setState(() {
-                          _isListening = false;
-                        });
-                      }
+                  child: Consumer<SpeechProvider>(
+                    builder:
+                        (BuildContext context, speechprovider, Widget? child) {
+                      return InkWell(
+                        onTap: () async {
+                          await speechprovider.toggleListening();
+                        },
+                        child: Image.asset(
+                          "Assets/Mic.png",
+                          width: MediaQuery.of(context).size.width / 8,
+                          height: MediaQuery.of(context).size.height / 4,
+                          fit: BoxFit.contain,
+                        ),
+                      );
                     },
-                    child: Image.asset(
-                      "Assets/Mic.png",
-                      width: MediaQuery.of(context).size.width / 8,
-                      height: MediaQuery.of(context).size.height / 4,
-                      fit: BoxFit.contain,
-                    ),
                   ),
                 )
               ],
