@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class HomescreenProvider extends ChangeNotifier {
-  bool? _isBoySelected; // Initially, boy is selected
+  bool? _isBoySelected;
   List<bool> _numberBoxSelections = List.generate(6, (index) => false);
 
   bool? get isBoySelected => _isBoySelected;

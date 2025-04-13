@@ -540,12 +540,6 @@ class _Imagescreen1State extends State<Imagescreen1> {
                                       ),
                                     ),
                                   ),
-                                  // child: Image.asset(
-                                  //   "Assets/Icon/land.png",
-                                  //   width: 80,
-                                  //   height: 80,
-                                  //   fit: BoxFit.fill,
-                                  // ),
                                 ),
                               ),
                               SizedBox(
