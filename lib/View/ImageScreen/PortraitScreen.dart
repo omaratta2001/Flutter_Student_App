@@ -36,7 +36,7 @@ class _PortraitscreenState extends State<Portraitscreen> {
     GeminiImageService imageGenerator = new GeminiImageService();
     var gentext = 'generate an image about: ${widget.prompt}';
 
-    final result = await imageGenerator.generateImage(gentext);
+    final result = await imageGenerator.generateImage1(gentext, "1:1");
 
     setState(() {
       imageBytes = result;
@@ -115,7 +115,7 @@ class _PortraitscreenState extends State<Portraitscreen> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Container(
-                      width: MediaQuery.of(context).size.width / 1.5,
+                      width: MediaQuery.of(context).size.width / 2,
                       height: MediaQuery.of(context).size.height / 1,
                       decoration: BoxDecoration(
                         image: DecorationImage(
@@ -150,9 +150,9 @@ class _PortraitscreenState extends State<Portraitscreen> {
                   ),
                   Positioned(
                     bottom: MediaQuery.of(context).size.height * 0.095,
-                    right: MediaQuery.of(context).size.width / 1.67,
-                    width: 75,
-                    height: 75,
+                    right: MediaQuery.of(context).size.width / 2.3,
+                    width: 65,
+                    height: 65,
                     child: InkWell(
                         onTap: () async {
                           final imageService = ImageGenerationService(
@@ -165,7 +165,7 @@ class _PortraitscreenState extends State<Portraitscreen> {
                           await imageService.saveImageWithPopupPicker(
                               context, imageBytes!);
                         },
-                        child: Image.asset("Assets/listen.png")),
+                        child: Image.asset("Assets/Download_.png")),
                   )
                 ],
               ),

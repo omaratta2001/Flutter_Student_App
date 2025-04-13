@@ -49,7 +49,7 @@ class _PaintlandscreenState extends State<Paintlandscreen> {
     GeminiImageService imageGenerator = new GeminiImageService();
     var gentext = 'generate an image about: ${widget.prompt}';
     print(gentext);
-    final result = await imageGenerator.generateImage(gentext);
+    final result = await imageGenerator.generateImage1(gentext, "16:9");
 
     setState(() {
       imageBytes = result;
@@ -245,7 +245,7 @@ class _PaintlandscreenState extends State<Paintlandscreen> {
                           await imageService.saveImageWithPopupPicker(
                               context, imageBytes!);
                         },
-                        child: Image.asset("Assets/listen.png")),
+                        child: Image.asset("Assets/Download_.png")),
                   )
                 ],
               ),

@@ -84,8 +84,8 @@ class _GeneratingadvscreenState extends State<Generatingadvscreen> {
     GeminiImageService _imageGenerator = new GeminiImageService();
 
     print('heloo--' + gentext!);
-    gentext = 'generate an image about: ' + gentext!;
-    final result = await _imageGenerator.generateImage(gentext!);
+    gentext = gentext!;
+    final result = await _imageGenerator.generateImage1(gentext!, "16:9");
 
     setState(() {
       imageBytes = result;

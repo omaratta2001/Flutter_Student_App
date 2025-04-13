@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:student_app/Controller/Providers/GeneratingActScreen_provider.dart';
 import 'package:student_app/Controller/SpeakToText.dart';
 import 'package:student_app/View/ActivityScreen/GeneratingActScreen.dart';
 
@@ -144,33 +146,40 @@ class _ActivityscreenState extends State<Activityscreen> {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(10.0),
-                      child: InkWell(
-                        onTap: () async {
-                          final SharedPreferences prefs =
-                              await SharedPreferences.getInstance();
+                      child: Consumer<generatingactscreenprovider>(
+                        builder:
+                            (BuildContext context, provider, Widget? child) {
+                          return InkWell(
+                            onTap: () async {
+                              final SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
 
-                          String? age = await prefs.getString('age');
-                          String? boy = await prefs.getString('Isboy');
-                          String prompit =
-                              'أنا ${boy!}، عمري ${age!} سنوات،اريد أن تسألني سؤال واحد فقط، مناسب لسني كاختبار لمعلوماتي، وبلغة عربية فصحى مبسطة، السؤال عن $_spokenText';
+                              String? age = await prefs.getString('age');
+                              String? boy = await prefs.getString('Isboy');
+                              String prompit =
+                                  'أنا ${boy!}، عمري ${age!} سنوات،اريد أن تسألني سؤال واحد فقط، مناسب لسني كاختبار لمعلوماتي، وبلغة عربية فصحى مبسطة، السؤال عن $_spokenText';
 
-                          Navigator.push(context, MaterialPageRoute(
-                              builder: (BuildContext context) {
-                            return Generatingactscreen(
-                              prompit: prompit,
-                            );
-                          }));
-                          // recivedmessage = await OpenAIService.sendRequest(
-                          //     "how are you doing ?");
-                          // print(recivedmessage);
-                          // setState(() {
-                          //   recivedmessage = recivedmessage;
-                          // });
+                              prompit = prompit + ' إبدا بالسؤال عالطول';
+                              provider.setValue(prompit);
+                              Navigator.push(context, MaterialPageRoute(
+                                  builder: (BuildContext context) {
+                                return Generatingactscreen(
+                                  prompit: prompit,
+                                );
+                              }));
+                              // recivedmessage = await OpenAIService.sendRequest(
+                              //     "how are you doing ?");
+                              // print(recivedmessage);
+                              // setState(() {
+                              //   recivedmessage = recivedmessage;
+                              // });
+                            },
+                            child: Image.asset(
+                              "Assets/Search.png",
+                              width: MediaQuery.of(context).size.width / 11,
+                            ),
+                          );
                         },
-                        child: Image.asset(
-                          "Assets/Search.png",
-                          width: MediaQuery.of(context).size.width / 11,
-                        ),
                       ),
                     )
                   ],

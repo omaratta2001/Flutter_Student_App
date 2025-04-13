@@ -115,7 +115,7 @@ class _Land1screenState extends State<Land1screen> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Container(
-                      width: MediaQuery.of(context).size.width / 2.7,
+                      width: MediaQuery.of(context).size.width / 3,
                       height: MediaQuery.of(context).size.height / 1,
                       decoration: BoxDecoration(
                         image: DecorationImage(
@@ -150,9 +150,9 @@ class _Land1screenState extends State<Land1screen> {
                   ),
                   Positioned(
                     bottom: MediaQuery.of(context).size.height * 0.08,
-                    right: MediaQuery.of(context).size.width / 3.34,
-                    width: 85,
-                    height: 85,
+                    right: MediaQuery.of(context).size.width / 3.7,
+                    width: 70,
+                    height: 70,
                     child: InkWell(
                         onTap: () async {
                           final imageService = ImageGenerationService(
@@ -165,7 +165,7 @@ class _Land1screenState extends State<Land1screen> {
                           await imageService.saveImageWithPopupPicker(
                               context, imageBytes!);
                         },
-                        child: Image.asset("Assets/listen.png")),
+                        child: Image.asset("Assets/Download_.png")),
                   )
                 ],
               ),

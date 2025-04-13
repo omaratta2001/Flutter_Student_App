@@ -2,8 +2,10 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:student_app/Controller/FlutterTTS.dart';
 import 'package:student_app/Controller/GeminiService.dart';
+import 'package:student_app/Controller/Providers/GeneratingActScreen_provider.dart';
 import 'package:student_app/Controller/SpeakToText.dart';
 import 'package:student_app/Controller/spans.dart';
 
@@ -24,8 +26,6 @@ class _GeneratingactscreenState extends State<Generatingactscreen> {
   String genais = '';
   String titlename = '';
   bool _isGeneratingtext = true;
-  Uint8List? imageBytes;
-  bool loading = true;
   String? gentext = '';
 
   SpeechService _speechService = SpeechService();
@@ -70,6 +70,7 @@ class _GeneratingactscreenState extends State<Generatingactscreen> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
+        scrolledUnderElevation: 0,
         elevation: 0,
         backgroundColor: Colors.transparent,
         toolbarHeight: 100,
@@ -81,24 +82,17 @@ class _GeneratingactscreenState extends State<Generatingactscreen> {
               offset: Offset(-20, -20),
               child: Row(
                 children: [
-                  InkWell(
-                    onTap: () {
-                      genais = '';
-                      titlename = '';
-                      _isGeneratingtext = true;
-                      imageBytes;
-                      loading = true;
-                      gentext = '';
-                      recivedmessage = '';
-                      _isListening = false;
-                      _spokenText = '';
-                      setState(() {
-                        genai = _generatetext();
-                      });
+                  Consumer<generatingactscreenprovider>(
+                    builder: (BuildContext context, provider, Widget? child) {
+                      return InkWell(
+                        onTap: () {
+                          provider.regenrate();
+                        },
+                        child: Image.asset(
+                          "Assets/Regenerate.png",
+                        ),
+                      );
                     },
-                    child: Image.asset(
-                      "Assets/Regenerate.png",
-                    ),
                   ),
                   SizedBox(
                     width: 10,
@@ -116,16 +110,17 @@ class _GeneratingactscreenState extends State<Generatingactscreen> {
             ),
           ),
         ],
-        leading: Padding(
-          padding: const EdgeInsets.all(15),
-          child: Transform.translate(
-            offset: Offset(-37, -15),
-            child: Image.asset(
-              "Assets/activity.png",
-              fit: BoxFit.cover,
-            ),
-          ),
-        ),
+        leading: Container(),
+        // leading: Padding(
+        //   padding: const EdgeInsets.all(15),
+        //   child: Transform.translate(
+        //     offset: Offset(-37, -15),
+        //     child: Image.asset(
+        //       "Assets/activity.png",
+        //       fit: BoxFit.cover,
+        //     ),
+        //   ),
+        // ),
       ),
       body: Container(
         width: MediaQuery.of(context).size.width,
@@ -165,15 +160,23 @@ class _GeneratingactscreenState extends State<Generatingactscreen> {
                               right: 10,
                               left: 15,
                               top: 15),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15),
-                              color: Color(0xffedf2d7),
-                            ),
-                            child: _isGeneratingtext
-                                ? Center(child: CircularProgressIndicator())
-                                : SingleChildScrollView(
-                                    child: buildStyledText(genais)),
+                          child: Consumer<generatingactscreenprovider>(
+                            builder: (BuildContext context, provider,
+                                Widget? child) {
+                              return Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  color: Color(0xffedf2d7),
+                                ),
+                                child: provider.isGeneratingtext
+                                    ? Center(child: CircularProgressIndicator())
+                                    : SingleChildScrollView(
+                                        child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: buildStyledText(provider.genais),
+                                      )),
+                              );
+                            },
                           ),
                         ),
                       ),
@@ -202,15 +205,20 @@ class _GeneratingactscreenState extends State<Generatingactscreen> {
                     Transform.translate(
                       offset: Offset(-MediaQuery.of(context).size.width / 2.8,
                           MediaQuery.of(context).size.height / 2.8),
-                      child: InkWell(
-                          onTap: () {
-                            speak.speakText(genais);
-                          },
-                          child: Image.asset(
-                            "Assets/listen.png",
-                            width: 75,
-                            height: 75,
-                          )),
+                      child: Consumer<generatingactscreenprovider>(
+                        builder:
+                            (BuildContext context, provider, Widget? child) {
+                          return InkWell(
+                              onTap: () {
+                                provider.speaktext();
+                              },
+                              child: Image.asset(
+                                "Assets/listen.png",
+                                width: 75,
+                                height: 75,
+                              ));
+                        },
+                      ),
                     )
                   ],
                 ),
@@ -237,12 +245,17 @@ class _GeneratingactscreenState extends State<Generatingactscreen> {
                               right: 10,
                               left: 15,
                               top: 15),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15),
-                              color: Color(0xffedf2d7),
-                            ),
-                            child: buildStyledText(_spokenText),
+                          child: Consumer<generatingactscreenprovider>(
+                            builder: (BuildContext context, provider,
+                                Widget? child) {
+                              return Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  color: Color(0xffedf2d7),
+                                ),
+                                child: buildStyledText(provider.spokenText),
+                              );
+                            },
                           ),
                         ),
                       ),
@@ -271,39 +284,20 @@ class _GeneratingactscreenState extends State<Generatingactscreen> {
                     Transform.translate(
                       offset: Offset(-MediaQuery.of(context).size.width / 2.8,
                           MediaQuery.of(context).size.height / 2.8),
-                      child: InkWell(
-                        onTap: () async {
-                          if (!_isListening) {
-                            setState(() => _isListening = true);
-                            await _speechService.startListening((text) {
-                              setState(() async {
-                                _spokenText = text;
-                              });
-                            });
-                          } else {
-                            _speechService.stopListening();
-
-                            setState(() async {
-                              _isListening = false;
-                            });
-                          }
-
-                          setState(() async {
-                            GeminiTextService _gemin = new GeminiTextService();
-
-                            final textss = await _gemin.generateText(
-                                'أنا عايز بس السوال من الكلام ده: ${widget.prompit}');
-                            String prom =
-                                'هل الإجابة $_spokenText هي إجابة صحيحة للسؤال ${textss!}، اكتب كلمة صح إذا كانت الإجابة صحيحة وكلمة خطأ إذا كانت الإجابة خاطئة، وفي كلتا الحالتين قدم الإجابة الصحيحة';
-                            recivedmessage = await _gemin.generateText(prom);
-                            print(recivedmessage);
-                          });
+                      child: Consumer<generatingactscreenprovider>(
+                        builder:
+                            (BuildContext context, provider, Widget? child) {
+                          return InkWell(
+                            onTap: () async {
+                              await provider.toggleListening();
+                            },
+                            child: Image.asset(
+                              "Assets/Mic.png",
+                              width: 75,
+                              height: 75,
+                            ),
+                          );
                         },
-                        child: Image.asset(
-                          "Assets/Mic.png",
-                          width: 75,
-                          height: 75,
-                        ),
                       ),
                     )
                   ],
@@ -347,29 +341,57 @@ class _GeneratingactscreenState extends State<Generatingactscreen> {
                                 opacity: 0.8,
                                 fit: BoxFit.fill),
                           ),
-                          child: Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15),
-                              color: Color(0xffedf2d7),
-                            ),
-                            child: buildStyledText(recivedmessage!),
+                          child: Consumer<generatingactscreenprovider>(
+                            builder: (BuildContext context, provider,
+                                Widget? child) {
+                              return Container(
+                                width: MediaQuery.of(context).size.width,
+                                height: MediaQuery.of(context).size.height,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  color: Color(0xffedf2d7),
+                                ),
+                                child: SingleChildScrollView(
+                                    child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: provider.isgenerating
+                                      ? Center(
+                                          child: CircularProgressIndicator())
+                                      : buildStyledText(
+                                          provider.recivedmessage!),
+                                )),
+                              );
+                            },
                           ),
                         ),
                       ),
                       Transform.translate(
                         offset: Offset(
                             -MediaQuery.of(context).size.width / 1.8, 15),
-                        child: InkWell(
-                            onTap: () {
-                              speak.speakText(recivedmessage!);
-                            },
-                            child: Image.asset(
-                              "Assets/listen.png",
-                              width: 75,
-                              height: 75,
-                            )),
+                        child: Consumer<generatingactscreenprovider>(
+                          builder:
+                              (BuildContext context, provider, Widget? child) {
+                            return provider.isanswer
+                                ? InkWell(
+                                    onTap: () {
+                                      provider.speakanswer();
+                                    },
+                                    child: Image.asset(
+                                      "Assets/listen.png",
+                                      width: 75,
+                                      height: 75,
+                                    ))
+                                : InkWell(
+                                    onTap: () {
+                                      provider.generateanser();
+                                    },
+                                    child: Image.asset(
+                                      "Assets/Search.png",
+                                      width: 75,
+                                      height: 75,
+                                    ));
+                          },
+                        ),
                       )
                     ],
                   )

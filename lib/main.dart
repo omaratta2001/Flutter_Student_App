@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:student_app/Controller/Providers/GeneratingActScreen_provider.dart';
 import 'package:student_app/Controller/Providers/HomeScreen_provider.dart';
 import 'package:student_app/Controller/Providers/SelectCategories_provider.dart';
 import 'package:student_app/View/HomeScreen/HomeScreen.dart';
@@ -20,6 +21,8 @@ void main() {
         providers: [
           ChangeNotifierProvider(create: (_) => HomescreenProvider()),
           ChangeNotifierProvider(create: (_) => SpeechProvider()..initSpeech()),
+          ChangeNotifierProvider(
+              create: (_) => generatingactscreenprovider()..initSpeech()),
         ],
         child: const MyApp(),
       ),

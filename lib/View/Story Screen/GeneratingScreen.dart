@@ -69,7 +69,7 @@ class _GeneratingscreenState extends State<Generatingscreen> {
       titlename = (await _gemin.generateText(genais +
           '  أكتب بس العنوان بدون القول أي شي العناون فقط و لا حتي تكتب كلمة عنوان القصة أسم القصة فقط'))!;
       gentext = await _gemin.generateText(genais +
-          '\n make this story as image prompt generation write it in english without saying anything or after only prompit ');
+          '\n convert this story imagegen3 prompit and should be short prompit write it in english without saying anything or after only prompit ');
       _generateImageOnLoad();
 
       setState(() => _isGeneratingtext = false);
@@ -87,9 +87,9 @@ class _GeneratingscreenState extends State<Generatingscreen> {
     GeminiImageService _imageGenerator = new GeminiImageService();
 
     print('heloo--' + gentext!);
-    gentext = 'generate an image about: ' + gentext!;
+    gentext = gentext!;
 
-    final result = await _imageGenerator.generateImage(gentext!);
+    final result = await _imageGenerator.generateImage1(gentext!, "16:9");
 
     setState(() {
       imageBytes = result;
