@@ -173,7 +173,8 @@ class _GeneratingactscreenState extends State<Generatingactscreen> {
                                     : SingleChildScrollView(
                                         child: Padding(
                                         padding: const EdgeInsets.all(8.0),
-                                        child: buildStyledText(provider.genais),
+                                        child: buildStyledText(
+                                            provider.genais, 15),
                                       )),
                               );
                             },
@@ -253,7 +254,7 @@ class _GeneratingactscreenState extends State<Generatingactscreen> {
                                   borderRadius: BorderRadius.circular(15),
                                   color: Color(0xffedf2d7),
                                 ),
-                                child: buildStyledText(provider.spokenText),
+                                child: buildStyledText(provider.spokenText, 15),
                               );
                             },
                           ),
@@ -358,7 +359,7 @@ class _GeneratingactscreenState extends State<Generatingactscreen> {
                                       ? Center(
                                           child: CircularProgressIndicator())
                                       : buildStyledText(
-                                          provider.recivedmessage!),
+                                          provider.recivedmessage!, 15),
                                 )),
                               );
                             },

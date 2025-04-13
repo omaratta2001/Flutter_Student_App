@@ -159,7 +159,7 @@ class _PaintscreenState extends State<Paintscreen> {
                               '، عمري ' +
                               age! +
                               ' سنوات،' +
-                              '، اريد صورة للتلوين بالأبيض والأسود، لكي أقوم بطباعتها وتلوينها، الصورة عن ' +
+                              '، اريد صورة مبسطة للتلوين بالأبيض والأسود، لكي أقوم بطباعتها وتلوينها، الصورة عن ' +
                               _spokenText;
                           GeminiTextService _gemin = new GeminiTextService();
 

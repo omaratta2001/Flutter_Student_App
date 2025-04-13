@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-RichText buildStyledText(String input) {
+RichText buildStyledText(String input, double font) {
   final regex = RegExp(r'\*\*(.*?)\*\*');
   final spans = <TextSpan>[];
   int currentIndex = 0;
@@ -24,7 +24,7 @@ RichText buildStyledText(String input) {
 
   return RichText(
     text: TextSpan(
-      style: TextStyle(color: Colors.black, fontSize: 15), // general style
+      style: TextStyle(color: Colors.black, fontSize: font), // general style
       children: spans,
     ),
   );

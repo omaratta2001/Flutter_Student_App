@@ -49,16 +49,14 @@ class _StoryscreenState extends State<Storyscreen> {
                   children: [
                     InkWell(
                       onTap: () {
-                        SpeechService _speechService = SpeechService();
-                        bool _isListening = false;
-                        String _spokenTextCar = '';
-                        String _spokenTextPlace = '';
-                        String _spokenTextCount = '';
-                        String _spokenTextTime = '';
-                        String _spokenTextIdea = '';
+                        _speechService = SpeechService();
+                        _isListening = false;
+                        _spokenTextCar = '';
+                        _spokenTextPlace = '';
+                        _spokenTextCount = '';
+                        _spokenTextTime = '';
+                        _spokenTextIdea = '';
 
-                        TextEditingController _queryController =
-                            TextEditingController();
                         setState(() {});
                       },
                       child: Image.asset(
@@ -160,7 +158,9 @@ class _StoryscreenState extends State<Storyscreen> {
                             child: InkWell(
                                 onTap: () async {
                                   if (!_isListening) {
-                                    setState(() => _isListening = true);
+                                    setState(() {
+                                      _isListening = true;
+                                    });
                                     await _speechService.startListening((text) {
                                       setState(() {
                                         _spokenTextCar = text;

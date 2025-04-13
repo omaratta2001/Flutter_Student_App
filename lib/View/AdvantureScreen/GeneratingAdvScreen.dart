@@ -206,7 +206,8 @@ class _GeneratingadvscreenState extends State<Generatingadvscreen> {
                                           child: CircularProgressIndicator())
                                       : SingleChildScrollView(
                                           child: Center(
-                                              child: buildStyledText(genais))),
+                                              child:
+                                                  buildStyledText(genais, 15))),
                                 ),
                               ),
                             ),

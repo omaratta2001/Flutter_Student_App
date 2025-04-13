@@ -252,7 +252,7 @@ class _GeneratingscreenState extends State<Generatingscreen> {
                                 child: _isGeneratingtext
                                     ? Center(child: CircularProgressIndicator())
                                     : SingleChildScrollView(
-                                        child: buildStyledText(genais)),
+                                        child: buildStyledText(genais, 15)),
                               ),
                             ),
                           ),

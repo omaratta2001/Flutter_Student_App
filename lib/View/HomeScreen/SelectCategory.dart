@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_app/Controller/Providers/SelectCategories_provider.dart';
 import 'package:student_app/Controller/SpeakToText.dart';
 import 'package:student_app/View/ActivityScreen/ActivityScreen.dart';
 import 'package:student_app/View/AdvantureScreen/AdvantureScreen.dart';
+import 'package:student_app/View/HomeScreen/Generatingtext.dart';
 import 'package:student_app/View/ImageScreen/ImageScreen1.dart';
 import 'package:student_app/View/Paint%20Screen/PaintScreen.dart';
 import 'package:student_app/View/Story%20Screen/StoryScreen.dart';
@@ -99,13 +101,54 @@ class _SelectionCategoryState extends State<SelectionCategory> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Image.asset(
-                        "Assets/Search.png",
-                        width: MediaQuery.of(context).size.width / 15,
-                        fit: BoxFit.fill,
-                      ),
-                    )
+                        padding: const EdgeInsets.all(10.0),
+                        child: Consumer<SpeechProvider>(
+                          builder:
+                              (BuildContext context, provider, Widget? child) {
+                            return InkWell(
+                              onTap: () async {
+                                final SharedPreferences prefs =
+                                    await SharedPreferences.getInstance();
+
+                                String? age = await prefs.getString('age');
+                                String? boy = await prefs.getString('Isboy');
+                                String number = "";
+                                if (age == "4") {
+                                  number = "20";
+                                } else if (age == "5") {
+                                  number = "25";
+                                } else if (age == "6") {
+                                  number = "30";
+                                } else if (age == "7") {
+                                  number = "35";
+                                } else if (age == "8") {
+                                  number = "45";
+                                } else if (age == "5") {
+                                  number = "55";
+                                }
+                                String prompit = "أنا " +
+                                    boy! +
+                                    "، عمري " +
+                                    age! +
+                                    ' سنوات، قم بالبحث عن ' +
+                                    provider.spokenText +
+                                    "، واجبني بطريقة أستطيع فهمها في حدود سني، وفي حدود   " +
+                                    number +
+                                    "كلمة.";
+                                print(prompit);
+                                Navigator.push(context, MaterialPageRoute(
+                                    builder: (BuildContext context) {
+                                  return Generatingtext(prompt: prompit);
+                                }));
+                              },
+                              child: Image.asset(
+                                "Assets/Search.png",
+                                width: MediaQuery.of(context).size.width / 15,
+                                fit: BoxFit.fill,
+                              ),
+                            );
+                          },
+                        ))
                   ],
                 ),
                 Transform.translate(
