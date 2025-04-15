@@ -21,24 +21,12 @@ class _PaintlandscreenState extends State<Paintlandscreen> {
   Uint8List? imageBytes;
   bool loading = false;
 
-  // bool _isGenerating = true;
-  // bool _isLoading = true;
-  // String? _selectedStyle; // Store the selected style
-
-  // List<String> _generatedImageUrls = [];
-
-  // // @override
-  // void initState() {
-  //   super.initState();
-  //   _imageGenerator =
-  //       ImageGenerator(apiKey: 'AIzaSyAmDvjFXpnPQdmoMjGjXYsNREhzpFz6IM8');
-  // }
+ 
 
   @override
   void initState() {
     super.initState();
     // Start generating image immediately when screen loads
-    //_imageFuture = _generateImage();
     _generateImageOnLoad();
   }
 
@@ -56,37 +44,6 @@ class _PaintlandscreenState extends State<Paintlandscreen> {
       loading = false;
     });
   }
-
-  // Future<Uint8List> _generateImage() async {
-  //   try {
-  //     final imageService = ImageGenerationService(
-  //       apiKey: 'sk-vik6sy0OnWwz4V6pau2u6GEkyIkZR6MoJ46h31fzDSKt7RVA',
-  //       imageAIStyle: widget.imageAIStyle, // optional style
-  //     );
-  //     final imageBytes = await imageService.generateImage(widget.prompt);
-  //     setState(() => _isGenerating = false);
-  //     _image = imageBytes;
-  //     return imageBytes;
-  //   } catch (e) {
-  //     setState(() => _isGenerating = false);
-  //     throw e; // Re-throw to be caught by FutureBuilder
-  //   }
-  // }
-
-  // Future<void> _generateInitialImage() async {
-  //   final imageUrl = await _imageGenerator.generateImage(widget.prompt,
-  //       style: widget.prompt);
-  //   if (imageUrl != null) {
-  //     setState(() {
-  //       _generatedImageUrl = imageUrl;
-  //     });
-  //   } else {
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       SnackBar(content: Text('Failed to generate initial image.')),
-  //     );
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -176,43 +133,6 @@ class _PaintlandscreenState extends State<Paintlandscreen> {
                             borderRadius: BorderRadius.circular(15),
                             color: Color(0xffedf2d7),
                           ),
-                          // child: ClipRRect(
-                          //   borderRadius: BorderRadius.circular(15),
-                          //   child: Image.memory(
-                          //     widget.imageBytes,
-                          //     fit: BoxFit.cover,
-                          //   ),
-                          // ),
-                          //   child: FutureBuilder<Uint8List>(
-                          //       future: _imageFuture,
-                          //       builder: (context, snapshot) {
-                          //         if (snapshot.connectionState ==
-                          //             ConnectionState.waiting) {
-                          //           return Center(
-                          //             child: CircularProgressIndicator(),
-                          //           );
-                          //         } else if (snapshot.hasError) {
-                          //           return Center(
-                          //             child: Text(
-                          //               'Error generating image: ${snapshot.error}',
-                          //               style: TextStyle(color: Colors.red),
-                          //             ),
-                          //           );
-                          //         } else if (snapshot.hasData) {
-                          //           // Show the generated image
-                          //           return ClipRRect(
-                          //             borderRadius: BorderRadius.circular(15),
-                          //             child: Image.memory(
-                          //               snapshot.data!,
-                          //               fit: BoxFit.cover,
-                          //             ),
-                          //           );
-                          //         } else {
-                          //           return Center(
-                          //             child: Text("No image data available"),
-                          //           );
-                          //         }
-                          //       }),
                           child: loading
                               ? Center(child: CircularProgressIndicator())
                               : imageBytes != null
@@ -237,7 +157,7 @@ class _PaintlandscreenState extends State<Paintlandscreen> {
                         onTap: () async {
                           final imageService = ImageGenerationService(
                             apiKey:
-                                'sk-8O39BNVMc5JJf9ppRs2456ieucZtT3wzBgbGQ67zYj5ZfhPJ',
+                                'OpenRouterApiKey',
                             imageAIStyle:
                                 ImageAIStyle.digitalPainting, // optional style
                           );
