@@ -170,12 +170,7 @@ class _PaintscreenState extends State<Paintscreen> {
                               builder: (BuildContext context) {
                             return Paintlandscreen(prompt: gentext!);
                           }));
-                          //   recivedmessage = await OpenAIService.sendRequest(
-                          //     "how are you doing ?");
-                          // print(recivedmessage);
-                          // setState(() {
-                          //   recivedmessage = recivedmessage;
-                          // });
+                        
                         },
                         child: Image.asset(
                           "Assets/Search.png",
