@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 class GeminiTextService {
   final String apiKey;
 
-  GeminiTextService({this.apiKey = 'AIzaSyCEIqNk9qWlkHvJTL7osH8xQnl75RBe5xM'});
+  GeminiTextService({this.apiKey = 'Geminiapikey'});
 
   Future<String?> generateText(String prompt) async {
     final url = Uri.parse(

@@ -5,11 +5,11 @@ import 'package:http/http.dart' as http;
 class GeminiImageService {
   final String apiKey;
 
-  GeminiImageService({this.apiKey = 'AIzaSyAphFM5yIY7hHjS7LtGwMPu3Ygw8BO_ey4'});
+  GeminiImageService({this.apiKey = 'addapikey'});
 
   Future<Uint8List?> generateImage1(String prompt, String aspect) async {
     final url = Uri.parse(
-      'https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=AIzaSyAphFM5yIY7hHjS7LtGwMPu3Ygw8BO_ey4',
+      'https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=addapikey',
     );
 
     final headers = {
