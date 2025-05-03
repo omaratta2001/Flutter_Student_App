@@ -97,25 +97,6 @@ class _GeneratingscreenState extends State<Generatingscreen> {
     });
   }
 
-  // Future<Uint8List> _generateImage() async {
-  //   try {
-  //     final imageService = ImageGenerationService(
-  //       apiKey: 'sk-vik6sy0OnWwz4V6pau2u6GEkyIkZR6MoJ46h31fzDSKt7RVA',
-  //       imageAIStyle: ImageAIStyle.digitalPainting, // optional style
-  //     );
-  //     String gentext = await OpenAIService.sendRequest(genais +
-  //         '\n make this story as image prompt generation write it in english without saying anything or after only prompit ');
-
-  //     final imageBytes = await imageService.generateImage(gentext);
-  //     _image = imageBytes;
-  //     setState(() => _isGenerating = false);
-  //     return imageBytes;
-  //   } catch (e) {
-  //     setState(() => _isGenerating = false);
-  //     throw e; // Re-throw to be caught by FutureBuilder
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

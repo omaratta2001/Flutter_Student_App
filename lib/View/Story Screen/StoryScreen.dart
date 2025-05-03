@@ -549,14 +549,7 @@ class _StoryscreenState extends State<Storyscreen> {
                               }
 
                               String? gentext = '';
-                              //await OpenAIService.sendRequest(
-                              //     prompit +
-                              //         ' translate this to english without saying anything before or after only say the translation');
-                              GeminiTextService _gemin =
-                                  new GeminiTextService();
-                              gentext = await _gemin.generateText(prompit +
-                                  ' translate this to english without saying anything before or after only say the translation');
-
+                              prompit += "أردك أن تبدأ بالعنوان مباشرا";
                               print(prompit);
                               print(gentext);
 
